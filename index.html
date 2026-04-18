@@ -333,10 +333,11 @@
       if (!text) return;
 
       reports.push({
-  time: getCurrentTime(),
-  text: text,
-  color: ''
-});
+        time: getCurrentTime(),
+        text: text,
+        color: ''
+        isEditing: false
+      });
 
       input.value = '';
       renderReports();
@@ -359,15 +360,25 @@
     <div class="report-top">
       <div class="report-time">${report.time}</div>
       <div style="display:flex; gap:6px;">
-  <button id="edit-btn-${index}" class="secondary-btn small-btn" onclick="event.stopPropagation(); toggleEdit(${index}, this)">ערוך</button>
-  <button id="cancel-btn-${index}" class="small-btn" style="display:none;" onclick="event.stopPropagation(); cancelEdit(${index})">בטל שינויים</button>
-  <button class="danger-btn" onclick="event.stopPropagation(); deleteReport(${index}, this)">מחק</button>
-</div>
+        ${
+        report.isEditing
+          ? `
+        <button class="small-btn" onclick="event.stopPropagation(); cancelEdit(${index})">בטל שינויים</button>
+        <button class="secondary-btn small-btn" onclick="event.stopPropagation(); toggleEdit(${index})">שמור</button>
+          `
+          : `
+            <button class="secondary-btn small-btn" onclick="event.stopPropagation(); toggleEdit(${index})">ערוך</button>
+          `
+        }
+        <button class="danger-btn" onclick="event.stopPropagation(); deleteReport(${index}, this)">מחק</button>
+      </div>
     </div>
 
-    <div id="text-${index}" class="report-text" onclick="event.stopPropagation()">${escapeHtml(report.text)}</div>
-
-    <textarea id="edit-${index}" class="report-edit" style="display:none;" onclick="event.stopPropagation()">${report.text}</textarea>
+    ${
+    report.isEditing
+        ? `<textarea id="edit-${index}" class="report-edit" onclick="event.stopPropagation()">${report.text}</textarea>`
+        : `<div id="text-${index}" class="report-text" onclick="event.stopPropagation()">${escapeHtml(report.text)}</div>`
+    }
   </div>
 `).join('');
 
@@ -442,42 +453,22 @@ function handleReportClick(event, index) {
     }
 
 
-function toggleEdit(index, button) {
-  const textDiv = document.getElementById(`text-${index}`);
-  const textarea = document.getElementById(`edit-${index}`);
-  const cancelBtn = document.getElementById(`cancel-btn-${index}`);
-  const isEditing = textarea.style.display === 'block';
+function toggleEdit(index) {
+  const report = reports[index];
+  report.isEditing = !report.isEditing;
 
-  if (isEditing) {
-    reports[index].text = textarea.value;
-    textDiv.textContent = textarea.value;
-    textarea.style.display = 'none';
-    textDiv.style.display = 'block';
-    button.textContent = 'ערוך';
-    if (cancelBtn) cancelBtn.style.display = 'none';
-  } else {
-    textarea.value = reports[index].text;
-    textDiv.style.display = 'none';
-    textarea.style.display = 'block';
-    button.textContent = 'שמור';
-    if (cancelBtn) cancelBtn.style.display = 'inline-block';
-    textarea.focus();
+  if (!report.isEditing) {
+    // save
+    const textarea = document.getElementById(`edit-${index}`);
+    report.text = textarea.value;
   }
+
+  renderReports();
 }
 
 function cancelEdit(index) {
-  const textDiv = document.getElementById(`text-${index}`);
-  const textarea = document.getElementById(`edit-${index}`);
-  const editBtn = document.getElementById(`edit-btn-${index}`);
-  const cancelBtn = document.getElementById(`cancel-btn-${index}`);
-
-  textarea.value = reports[index].text;
-  textarea.style.display = 'none';
-  textDiv.style.display = 'block';
-  textDiv.textContent = reports[index].text;
-
-  if (editBtn) editBtn.textContent = 'ערוך';
-  if (cancelBtn) cancelBtn.style.display = 'none';
+  reports[index].isEditing = false;
+  renderReports();
 }
     
     function cycleColor(index) {
