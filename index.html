@@ -453,6 +453,7 @@ function toggleEdit(index, button) {
     textarea.style.display = 'none';
     textDiv.style.display = 'block';
     button.textContent = 'ערוך';
+    textarea.focus();
   } else {
     // Enter edit mode
     textarea.value = reports[index].text;
