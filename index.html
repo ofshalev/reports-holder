@@ -442,6 +442,8 @@ function toggleEdit(index, button) {
 
     textDiv.textContent = textarea.value;
     textarea.style.display = 'none';
+    textDiv.style.display = 'none';
+    void textDiv.offsetHeight;
     textDiv.style.display = 'block';
 
     button.textContent = 'ערוך';
