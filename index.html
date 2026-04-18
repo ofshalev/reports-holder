@@ -236,6 +236,31 @@
   resize: vertical;
 }
 
+.report-item.color-red {
+  background: #fee2e2;
+  border-color: #ef4444;
+}
+
+.report-item.color-yellow {
+  background: #fef9c3;
+  border-color: #eab308;
+}
+
+.report-item.color-green {
+  background: #dcfce7;
+  border-color: #22c55e;
+}
+
+.report-item.color-blue {
+  background: #dbeafe;
+  border-color: #3b82f6;
+}
+
+.report-item.color-brown {
+  background: #ede0d4;
+  border-color: #9a6b47;
+}
+    
   </style>
 </head>
 <body>
@@ -283,9 +308,10 @@
       if (!text) return;
 
       reports.push({
-        time: getCurrentTime(),
-        text: text
-      });
+  time: getCurrentTime(),
+  text: text,
+  color: ''
+});
 
       input.value = '';
       renderReports();
@@ -304,12 +330,12 @@
       }
 
       list.innerHTML = reports.map((report, index) => `
-  <div class="report-item">
+  <div class="report-item ${report.color}" onclick="cycleColor(${index})">
     <div class="report-top">
       <div class="report-time">${report.time}</div>
       <div style="display:flex; gap:6px;">
-        <button class="secondary-btn small-btn" onclick="toggleEdit(${index}, this)">ערוך</button>
-        <button class="danger-btn" onclick="deleteReport(${index}, this)">מחק</button>
+        <button class="secondary-btn small-btn" onclick="event.stopPropagation(); toggleEdit(${index}, this)">ערוך</button>
+<button class="danger-btn" onclick="event.stopPropagation(); deleteReport(${index}, this)">מחק</button>
       </div>
     </div>
 
@@ -409,6 +435,14 @@ function toggleEdit(index, button) {
   }
 }
 
+    function cycleColor(index) {
+  const colors = ['', 'color-red', 'color-yellow', 'color-green', 'color-blue', 'color-brown'];
+  const current = reports[index].color;
+  const currentIndex = colors.indexOf(current);
+  const nextIndex = (currentIndex + 1) % colors.length;
+  reports[index].color = colors[nextIndex];
+  renderReports();
+}
 
     document.getElementById('reportInput').addEventListener('keydown', function(event) {
       if (event.ctrlKey && event.key === 'Enter') {
