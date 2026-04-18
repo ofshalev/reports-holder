@@ -354,26 +354,19 @@
         return;
       }
 
-      list.innerHTML = reports.map((report, index) => `
+     list.innerHTML = reports.map((report, index) => `
   <div class="report-item ${report.color}" onclick="cycleColor(${index})">
     <div class="report-top">
       <div class="report-time">${report.time}</div>
       <div style="display:flex; gap:6px;">
         <button class="secondary-btn small-btn" onclick="event.stopPropagation(); toggleEdit(${index}, this)">ערוך</button>
-<button class="danger-btn" onclick="event.stopPropagation(); deleteReport(${index}, this)">מחק</button>
+        <button class="danger-btn" onclick="event.stopPropagation(); deleteReport(${index}, this)">מחק</button>
       </div>
     </div>
 
-    
+    <div id="text-${index}" class="report-text" onclick="event.stopPropagation()">${escapeHtml(report.text)}</div>
 
-    <div id="text-${index}" class="report-text"> ${escapeHtml(report.text)}</div>
-
-<textarea
-  id="edit-${index}"
-  class="report-edit"
-  style="display:none;"
-  onclick="event.stopPropagation()"
->${escapeHtml(report.text)}</textarea>
+    <textarea id="edit-${index}" class="report-edit" style="display:none;" onclick="event.stopPropagation()">${report.text}</textarea>
   </div>
 `).join('');
 
@@ -453,7 +446,7 @@ function toggleEdit(index, button) {
     textarea.style.display = 'none';
     textDiv.style.display = 'block';
     button.textContent = 'ערוך';
-    textarea.focus();
+    
   } else {
     // Enter edit mode
     textarea.value = reports[index].text;
