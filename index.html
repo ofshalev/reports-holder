@@ -257,16 +257,31 @@
   line-height: 1.6;
   padding: 10px;
   margin: 0;
-  border-radius: 10px;
 }
 
 .report-text {
+  direction: rtl;
+  text-align: right;
   white-space: pre-wrap;
-  display: block;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
 }
 
 .report-edit {
+  width: 100%;
+  box-sizing: border-box;
+  direction: rtl;
+  text-align: right;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  padding: 10px;
+  margin: 0;
   border: 1px solid var(--border);
+  border-radius: 10px;
   resize: vertical;
   display: block;
 }
@@ -335,7 +350,7 @@
 
       if (reports.length === 0) {
         list.innerHTML = '<div class="empty-state">עדיין לא נוספו דיווחים.</div>';
-        if (fullOutput) fullOutput.textContent = '';
+        fullOutput.textContent = '';
         return;
       }
 
@@ -351,7 +366,7 @@
 
     
 
-    <div id="text-${index}" class="report-text" onclick="event.stopPropagation()">${escapeHtml(report.text)}</div>
+    <div id="text-${index}" class="report-text"> ${escapeHtml(report.text)}</div>
 
 <textarea
   id="edit-${index}"
@@ -362,11 +377,10 @@
   </div>
 `).join('');
 
-      if (fullOutput) {
-  fullOutput.textContent = reports
-    .map(report => `${report.time} - ${report.text}`)
-    .join('\n');
-}
+      fullOutput.textContent = reports
+        .map(report => `${report.time} - ${report.text}`)
+        .join('\n');
+    }
 
     function deleteReport(index, button) {
       reports.splice(index, 1);
@@ -433,18 +447,18 @@ function toggleEdit(index, button) {
   const isEditing = textarea.style.display === 'block';
 
   if (isEditing) {
+    // Save
     reports[index].text = textarea.value;
-
     textDiv.textContent = textarea.value;
     textarea.style.display = 'none';
     textDiv.style.display = 'block';
-
     button.textContent = 'ערוך';
   } else {
+    // Enter edit mode
     textarea.value = reports[index].text;
 
-    textDiv.style.display = 'none';
     textarea.style.display = 'block';
+    textDiv.style.display = 'none';
 
     button.textContent = 'שמור';
     textarea.focus();
@@ -452,9 +466,6 @@ function toggleEdit(index, button) {
 }
 
     function cycleColor(index) {
-  const textarea = document.getElementById(`edit-${index}`);
-  if (textarea && textarea.style.display === 'block') return;
-
   const colors = ['', 'color-red', 'color-yellow', 'color-green', 'color-blue', 'color-brown'];
   const current = reports[index].color;
   const currentIndex = colors.indexOf(current);
