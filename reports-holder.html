@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>יומן דיווחים</title>
+  <style>
+    :root {
+      --bg: #f3f6fb;
+      --panel: #ffffff;
+      --border: #d7deea;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --danger: #dc2626;
+      --success: #16a34a;
+      --item-bg: #f8fafc;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .app {
+      max-width: 1100px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
+      padding: 18px;
+    }
+
+    .header-panel {
+      margin-bottom: 18px;
+      text-align: center;
+    }
+
+    .header-panel h1 {
+      margin: 0;
+      font-size: 30px;
+    }
+
+    .header-panel p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel-title {
+      margin: 0 0 14px;
+      font-size: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 180px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      resize: vertical;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .button-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.05s ease;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .primary-btn {
+      background: var(--primary);
+      color: white;
+    }
+
+    .primary-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .secondary-btn {
+      background: #475569;
+      color: white;
+    }
+
+    .secondary-btn:hover {
+      background: #334155;
+    }
+
+    .danger-btn {
+      background: #e5e7eb;
+      color: #374151;
+      padding: 7px 10px;
+      font-size: 12px;
+    }
+
+    .danger-btn:hover {
+      background: #d1d5db;
+    }
+
+    .flash-success {
+      background: var(--success) !important;
+      color: white !important;
+    }
+
+    .report-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .report-item {
+      background: var(--item-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .report-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .report-time {
+      font-weight: bold;
+      color: var(--primary);
+      white-space: nowrap;
+      font-size: 14px;
+    }
+
+    .report-text {
+      white-space: pre-wrap;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .empty-state {
+      color: var(--muted);
+      font-size: 14px;
+      padding: 8px 0;
+    }
+
+    .output-box {
+      width: 100%;
+      min-height: 420px;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.8;
+      white-space: pre-wrap;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .button-row {
+        flex-direction: column;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+
+
+.small-btn {
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+.report-edit {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="panel header-panel">
+      <h1>יומן דיווחים</h1>
+    </div>
+
+    <div class="layout">
+      <div class="panel">
+        <h2 class="panel-title">הוספת דיווח חדש</h2>
+
+        <label for="reportInput">תוכן הדיווח</label>
+        <textarea id="reportInput" placeholder="כתוב כאן את הדיווח שהתקבל מהנהג / סייר / משטרה..."></textarea>
+
+        <div class="button-row">
+          <button class="primary-btn" onclick="addReport(this)">הוסף דיווח</button>
+          <button class="danger-btn" onclick="clearInput(this)">נקה טקסט</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        
+        <div id="reportList" class="report-list"></div>
+
+        
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const reports = [];
+
+    function getCurrentTime() {
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      return `${hours}:${minutes}`;
+    }
+
+    function addReport(button) {
+      const input = document.getElementById('reportInput');
+      const text = input.value.trim();
+
+      if (!text) return;
+
+      reports.push({
+        time: getCurrentTime(),
+        text: text
+      });
+
+      input.value = '';
+      renderReports();
+      flashButton(button);
+      input.focus();
+    }
+
+    function renderReports() {
+      const list = document.getElementById('reportList');
+      const fullOutput = document.getElementById('fullOutput');
+
+      if (reports.length === 0) {
+        list.innerHTML = '<div class="empty-state">עדיין לא נוספו דיווחים.</div>';
+        fullOutput.textContent = '';
+        return;
+      }
+
+      list.innerHTML = reports.map((report, index) => `
+  <div class="report-item">
+    <div class="report-top">
+      <div class="report-time">${report.time}</div>
+      <div style="display:flex; gap:6px;">
+        <button class="secondary-btn small-btn" onclick="toggleEdit(${index}, this)">ערוך</button>
+        <button class="danger-btn" onclick="deleteReport(${index}, this)">מחק</button>
+      </div>
+    </div>
+
+    <div id="text-${index}" class="report-text">${escapeHtml(report.text)}</div>
+
+    <textarea id="edit-${index}" class="report-edit" style="display:none;">${escapeHtml(report.text)}</textarea>
+  </div>
+`).join('');
+
+      fullOutput.textContent = reports
+        .map(report => `${report.time} - ${report.text}`)
+        .join('\n');
+    }
+
+    function deleteReport(index, button) {
+      reports.splice(index, 1);
+      renderReports();
+      flashButton(button);
+    }
+
+    function clearInput(button) {
+      document.getElementById('reportInput').value = '';
+      flashButton(button);
+    }
+
+    function clearAllReports(button) {
+      reports.length = 0;
+      renderReports();
+      flashButton(button);
+    }
+
+    function copyFullLog(button) {
+      const text = document.getElementById('fullOutput').textContent.trim();
+      if (!text) return;
+
+      copyText(text);
+      flashButton(button);
+    }
+
+    function copyText(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+      } else {
+        fallbackCopy(text);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const temp = document.createElement('textarea');
+      temp.value = text;
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand('copy');
+      document.body.removeChild(temp);
+    }
+
+    function flashButton(button) {
+      if (!button) return;
+      button.classList.add('flash-success');
+      setTimeout(() => {
+        button.classList.remove('flash-success');
+      }, 250);
+    }
+
+    function escapeHtml(text) {
+      return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+
+function toggleEdit(index, button) {
+  const textDiv = document.getElementById(`text-${index}`);
+  const textarea = document.getElementById(`edit-${index}`);
+
+  const isEditing = textarea.style.display === 'block';
+
+  if (isEditing) {
+    // Save
+    reports[index].text = textarea.value;
+
+    textDiv.textContent = textarea.value;
+    textarea.style.display = 'none';
+    textDiv.style.display = 'block';
+
+    button.textContent = 'ערוך';
+  } else {
+    // Enter edit mode
+    textarea.value = reports[index].text;
+
+    textarea.style.display = 'block';
+    textDiv.style.display = 'none';
+
+    button.textContent = 'שמור';
+    textarea.focus();
+  }
+}
+
+
+    document.getElementById('reportInput').addEventListener('keydown', function(event) {
+      if (event.ctrlKey && event.key === 'Enter') {
+        addReport();
+      }
+    });
+
+    renderReports();
+  </script>
+</body>
+</html>
