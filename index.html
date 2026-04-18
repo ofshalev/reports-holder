@@ -354,8 +354,8 @@
         return;
       }
 
-     list.innerHTML = reports.map((report, index) => `
-  <div class="report-item ${report.color}" onclick="cycleColor(${index})">
+    list.innerHTML = reports.map((report, index) => `
+  <div class="report-item ${report.color}" onclick="handleReportClick(event, ${index})">
     <div class="report-top">
       <div class="report-time">${report.time}</div>
       <div style="display:flex; gap:6px;">
@@ -375,6 +375,14 @@
         .join('\n');
     }
 
+function handleReportClick(event, index) {
+  const textarea = document.getElementById(`edit-${index}`);
+  if (textarea && textarea.style.display === 'block') {
+    return;
+  }
+  cycleColor(index);
+}
+    
     function deleteReport(index, button) {
       reports.splice(index, 1);
       renderReports();
@@ -436,24 +444,17 @@
 function toggleEdit(index, button) {
   const textDiv = document.getElementById(`text-${index}`);
   const textarea = document.getElementById(`edit-${index}`);
-
   const isEditing = textarea.style.display === 'block';
 
   if (isEditing) {
-    // Save
     reports[index].text = textarea.value;
-    textDiv.textContent = textarea.value;
     textarea.style.display = 'none';
     textDiv.style.display = 'block';
     button.textContent = 'ערוך';
-    
   } else {
-    // Enter edit mode
     textarea.value = reports[index].text;
-
-    textarea.style.display = 'block';
     textDiv.style.display = 'none';
-
+    textarea.style.display = 'block';
     button.textContent = 'שמור';
     textarea.focus();
   }
