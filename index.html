@@ -226,14 +226,10 @@
 }
 
 .report-edit {
-  width: 100%;
   border: 1px solid var(--border);
   border-radius: 10px;
-  padding: 10px;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-  line-height: 1.6;
   resize: vertical;
+  display: block;
 }
 
 .report-item.color-red {
@@ -263,15 +259,21 @@
 
 .report-text,
 .report-edit {
+  width: 100%;
+  box-sizing: border-box;
   direction: rtl;
   text-align: right;
-  line-height: 1.6;
   font-family: Arial, sans-serif;
   font-size: 14px;
+  line-height: 1.6;
+  padding: 10px;
+  margin: 0;
 }
 
-    .report-text {
+ .report-text {
   white-space: pre-wrap;
+  border: 1px solid transparent;
+  border-radius: 10px;
 }
     
   </style>
