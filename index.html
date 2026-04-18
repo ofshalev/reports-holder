@@ -448,6 +448,7 @@ function toggleEdit(index, button) {
 
   if (isEditing) {
     reports[index].text = textarea.value;
+    textDiv.textContent = textarea.value;
     textarea.style.display = 'none';
     textDiv.style.display = 'block';
     button.textContent = 'ערוך';
@@ -459,7 +460,6 @@ function toggleEdit(index, button) {
     textarea.focus();
   }
 }
-
     function cycleColor(index) {
   const colors = ['', 'color-red', 'color-yellow', 'color-green', 'color-blue', 'color-brown'];
   const current = reports[index].color;
