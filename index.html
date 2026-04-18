@@ -486,14 +486,7 @@ function closeAllEdits() {
   });
 }
 
-document.addEventListener('click', function(event) {
-  const clickedInsideEditor = event.target.closest('.report-edit');
-  const clickedEditButton = event.target.closest('.small-btn');
 
-  if (!clickedInsideEditor && !clickedEditButton) {
-    closeAllEdits();
-  }
-});
     
     document.getElementById('reportInput').addEventListener('keydown', function(event) {
       if (event.ctrlKey && event.key === 'Enter') {
