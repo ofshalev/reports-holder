@@ -468,6 +468,32 @@ function toggleEdit(index, button) {
   renderReports();
 }
 
+function closeAllEdits() {
+  reports.forEach((report, index) => {
+    const textDiv = document.getElementById(`text-${index}`);
+    const textarea = document.getElementById(`edit-${index}`);
+    const editButton = document.querySelector(
+      `button[onclick*="toggleEdit(${index}"]`
+    );
+
+    if (textarea && textarea.style.display === 'block') {
+      report.text = textarea.value;
+      if (textDiv) textDiv.style.display = 'block';
+      textarea.style.display = 'none';
+      if (editButton) editButton.textContent = 'ערוך';
+    }
+  });
+}
+
+document.addEventListener('click', function(event) {
+  const clickedInsideEditor = event.target.closest('.report-edit');
+  const clickedEditButton = event.target.closest('.small-btn');
+
+  if (!clickedInsideEditor && !clickedEditButton) {
+    closeAllEdits();
+  }
+});
+    
     document.getElementById('reportInput').addEventListener('keydown', function(event) {
       if (event.ctrlKey && event.key === 'Enter') {
         addReport();
