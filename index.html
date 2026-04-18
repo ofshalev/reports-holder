@@ -257,8 +257,8 @@
 }
 
 .report-item.color-brown {
-  background: #ede0d4;
-  border-color: #9a6b47;
+  background: #f5efe6;
+  border-color: #8b5e3c;
 }
     
   </style>
@@ -341,7 +341,14 @@
 
     <div id="text-${index}" class="report-text">${escapeHtml(report.text)}</div>
 
-    <textarea id="edit-${index}" class="report-edit" style="display:none;">${escapeHtml(report.text)}</textarea>
+    <div id="text-${index}" class="report-text" onclick="event.stopPropagation()">${escapeHtml(report.text)}</div>
+
+<textarea
+  id="edit-${index}"
+  class="report-edit"
+  style="display:none;"
+  onclick="event.stopPropagation()"
+>${escapeHtml(report.text)}</textarea>
   </div>
 `).join('');
 
