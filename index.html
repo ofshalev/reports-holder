@@ -359,10 +359,10 @@
     <div class="report-top">
       <div class="report-time">${report.time}</div>
       <div style="display:flex; gap:6px;">
-        <button id="edit-btn-${index}" class="secondary-btn small-btn" onclick="event.stopPropagation(); toggleEdit(${index}, this)">ערוך</button>
-        <button id="cancel-btn-${index}" class="danger-btn small-btn" style="display:none;" onclick="event.stopPropagation(); cancelEdit(${index})">בטל שינויים</button>
-        <button class="danger-btn" onclick="event.stopPropagation(); deleteReport(${index}, this)">מחק</button>
-      </div>
+  <button id="edit-btn-${index}" class="secondary-btn small-btn" onclick="event.stopPropagation(); toggleEdit(${index}, this)">ערוך</button>
+  <button id="cancel-btn-${index}" class="small-btn" style="display:none;" onclick="event.stopPropagation(); cancelEdit(${index})">בטל שינויים</button>
+  <button class="danger-btn" onclick="event.stopPropagation(); deleteReport(${index}, this)">מחק</button>
+</div>
     </div>
 
     <div id="text-${index}" class="report-text" onclick="event.stopPropagation()">${escapeHtml(report.text)}</div>
