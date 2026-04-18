@@ -180,11 +180,6 @@
       font-size: 14px;
     }
 
-    .report-text {
-      white-space: pre-wrap;
-      line-height: 1.6;
-      font-size: 14px;
-    }
 
     .empty-state {
       color: var(--muted);
@@ -225,12 +220,6 @@
   font-size: 12px;
 }
 
-.report-edit {
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  resize: vertical;
-  display: block;
-}
 
 .report-item.color-red {
   background: #fee2e2;
@@ -270,10 +259,31 @@
   margin: 0;
 }
 
- .report-text {
+.report-text {
+  direction: rtl;
+  text-align: right;
   white-space: pre-wrap;
-  border: 1px solid transparent;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+.report-edit {
+  width: 100%;
+  box-sizing: border-box;
+  direction: rtl;
+  text-align: right;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  padding: 10px;
+  margin: 0;
+  border: 1px solid var(--border);
   border-radius: 10px;
+  resize: vertical;
+  display: block;
 }
     
   </style>
@@ -439,13 +449,9 @@ function toggleEdit(index, button) {
   if (isEditing) {
     // Save
     reports[index].text = textarea.value;
-
     textDiv.textContent = textarea.value;
     textarea.style.display = 'none';
-    textDiv.style.display = 'none';
-    void textDiv.offsetHeight;
     textDiv.style.display = 'block';
-
     button.textContent = 'ערוך';
   } else {
     // Enter edit mode
