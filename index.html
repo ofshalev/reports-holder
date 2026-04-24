@@ -305,13 +305,67 @@
           <button class="primary-btn" onclick="addReport(this)">הוסף דיווח</button>
           <button class="danger-btn" onclick="clearInput(this)">נקה טקסט</button>
         </div>
+     </div>
+
+     <div class="panel">
+    <div class="main-layout">
+
+  <!-- LEFT -->
+  <div class="left">
+    <div class="reports-holder">
+      עדיין לא נוספו דיווחים.
+    </div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="right">
+
+    <!-- existing form -->
+    <div class="card">
+      <h3>הוספת דיווח חדש</h3>
+      <textarea></textarea>
+
+      <div class="buttons">
+        <button class="clear">נקה טקסט</button>
+        <button>הוסף דיווח</button>
       </div>
+    </div>
+
+    <!-- 🔥 NEW: patrols block -->
+    <div class="card patrols">
+      <h3>שיבוץ סיורים</h3>
+
+      <div class="row">
+        <div class="label">שגור</div>
+        <select>...</select>
+        <input type="text">
+      </div>
+
+      <div class="row">
+        <div class="label">שנקאי</div>
+        <select>...</select>
+        <input type="text">
+      </div>
+
+      <div class="row">
+        <div class="label">דרור</div>
+        <select>...</select>
+        <input type="text">
+      </div>
+
+      <div class="buttons">
+        <button>שמור</button>
+        <button class="clear">נקה</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+     </div>
 
       <div class="panel">
         
         <div id="reportList" class="report-list"></div>
-
-        
       </div>
     </div>
   </div>
